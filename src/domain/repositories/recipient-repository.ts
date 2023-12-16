@@ -1,5 +1,8 @@
-import { Recipient } from "../entities/Recipient";
+import { Recipient } from '../entities/Recipient'
 
 export interface RecipientRepository {
-    create(recipient: Recipient): Promise<void>
+  findById(id: string): Promise<Recipient | null>
+  create(recipient: Recipient): Promise<void>
+  save(recipient: Recipient): Promise<void>
+  delete(recipient: Recipient): Promise<void>
 }

@@ -1,24 +1,22 @@
-import { Recipient } from "../entities/Recipient";
-import { RecipientRepository } from "../repositories/recipient-repository";
+import { Recipient } from '../entities/Recipient'
+import { RecipientRepository } from '../repositories/recipient-repository'
 
 interface RecipientUseCaseRequest {
-    name: string,
-    address: string,
+  name: string
+  address: string
 }
 
 export class RecipientUseCase {
-    constructor(
-        private recipientRepository: RecipientRepository,
-    ) {}
+  constructor(private recipientRepository: RecipientRepository) {}
 
-    async execute({ name, address }: RecipientUseCaseRequest) {
-        const recipient = Recipient.create({
-            name,
-            address
-        })
+  async execute({ name, address }: RecipientUseCaseRequest) {
+    const recipient = Recipient.create({
+      name,
+      address,
+    })
 
-        await this.recipientRepository.create(recipient)
+    await this.recipientRepository.create(recipient)
 
-        return recipient
-    }
+    return recipient
+  }
 }

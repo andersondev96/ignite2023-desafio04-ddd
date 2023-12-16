@@ -1,20 +1,21 @@
-import { Recipient } from "../entities/Recipient";
-import { RecipientRepository } from "../repositories/recipient-repository";
-import { RecipientUseCase } from "./recipient";
+import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient-repository'
+import { RecipientUseCase } from './recipient'
 
-const fakeRecipientsRepository: RecipientRepository = {
-    create: async (recipient: Recipient) => {
-        return;
-    }
-}
+let recipientRepository: InMemoryRecipientRepository
+let sut: RecipientUseCase
 
-test('create a new recipient', async () => {
-    const recipientUseCase = new RecipientUseCase(fakeRecipientsRepository)
+describe('create recipient', () => {
+  beforeEach(() => {
+    recipientRepository = new InMemoryRecipientRepository()
+    sut = new RecipientUseCase(recipientRepository)
+  })
 
-    const recipient = await recipientUseCase.execute({
-        name: 'John Doe',
-        address: 'Address Example'
+  it('should be able to  create a new recipient', async () => {
+    const recipient = await sut.execute({
+      name: 'John Doe',
+      address: 'Address Example',
     })
 
     expect(recipient.name).toEqual('John Doe')
+  })
 })

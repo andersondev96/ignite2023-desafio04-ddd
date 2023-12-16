@@ -1,5 +1,8 @@
-import { Order } from "../entities/Order";
+import { Order } from '../entities/Order'
 
 export interface OrderRepository {
-    create(order: Order): Promise<void>
+  findById(id: string): Promise<Order | null>
+  create(user: Order): Promise<void>
+  save(order: Order): Promise<void>
+  delete(order: Order): Promise<void>
 }
