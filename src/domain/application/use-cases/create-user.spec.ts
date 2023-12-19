@@ -11,11 +11,13 @@ describe('Create User', () => {
   })
 
   it('should be able to create a new user', async () => {
-    const result = await sut.execute({
+    const { user } = await sut.execute({
       name: 'John Doe',
       cpf: '123.456.789-00',
       password: '123456',
       type: 'admin',
     })
+
+    expect(user.id).toBeTruthy()
   })
 })

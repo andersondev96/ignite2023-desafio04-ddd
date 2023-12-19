@@ -1,6 +1,6 @@
+import { User, UserProps } from '@/domain/enterprise/entities/User'
 import { faker } from '@faker-js/faker'
 import { UniqueEntityId } from 'src/core/entities/unique-entity-id'
-import { User, UserProps } from 'src/domain/entities/User'
 
 export function MakeUser(
   override: Partial<UserProps> = {},

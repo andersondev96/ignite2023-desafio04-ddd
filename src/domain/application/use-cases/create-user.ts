@@ -1,5 +1,5 @@
-import { User } from '../entities/User'
-import { UserRepository } from '../repositories/user-repository copy'
+import { User } from '@/domain/enterprise/entities/User'
+import { UserRepository } from '../repositories/user-repository'
 
 interface CreateUserUseCaseRequest {
   name: string
@@ -8,10 +8,19 @@ interface CreateUserUseCaseRequest {
   type: 'user' | 'admin'
 }
 
+interface CreteUserUseCaseResponse {
+  user: User
+}
+
 export class CreateUserUseCase {
   constructor(private userRepository: UserRepository) {}
 
-  async execute({ name, cpf, password, type }: CreateUserUseCaseRequest) {
+  async execute({
+    name,
+    cpf,
+    password,
+    type,
+  }: CreateUserUseCaseRequest): Promise<CreteUserUseCaseResponse> {
     const user = User.create({
       name,
       cpf,
@@ -20,5 +29,9 @@ export class CreateUserUseCase {
     })
 
     await this.userRepository.create(user)
+
+    return {
+      user,
+    }
   }
 }

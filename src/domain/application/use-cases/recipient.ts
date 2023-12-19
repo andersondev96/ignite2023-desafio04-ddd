@@ -1,4 +1,4 @@
-import { Recipient } from '../entities/Recipient'
+import { Recipient } from '@/domain/enterprise/entities/Recipient'
 import { RecipientRepository } from '../repositories/recipient-repository'
 
 interface RecipientUseCaseRequest {

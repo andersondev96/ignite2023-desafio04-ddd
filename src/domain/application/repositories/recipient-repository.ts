@@ -1,4 +1,4 @@
-import { Recipient } from '../entities/Recipient'
+import { Recipient } from '@/domain/enterprise/entities/Recipient'
 
 export interface RecipientRepository {
   findById(id: string): Promise<Recipient | null>

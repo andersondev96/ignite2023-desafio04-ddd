@@ -1,4 +1,4 @@
-import { Order } from '../entities/Order'
+import { Order } from '@/domain/enterprise/entities/Order'
 
 export interface OrderRepository {
   findById(id: string): Promise<Order | null>
