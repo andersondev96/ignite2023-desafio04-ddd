@@ -1,18 +1,21 @@
 import { User, UserProps } from '@/domain/enterprise/entities/User'
 import { faker } from '@faker-js/faker'
+import { hash } from 'bcryptjs'
 import { UniqueEntityId } from 'src/core/entities/unique-entity-id'
 
-export function MakeUser(
+export async function MakeUser(
   override: Partial<UserProps> = {},
   id?: UniqueEntityId,
 ) {
   const userType: 'user' | 'admin' = 'user'
 
+  const hashPassword = await hash('123456', 6)
+
   const user = User.create(
     {
       name: faker.person.firstName(),
       cpf: faker.string.uuid(),
-      password: faker.lorem.slug(),
+      password: hashPassword,
       type: userType,
       ...override,
     },

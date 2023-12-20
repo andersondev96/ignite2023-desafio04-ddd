@@ -5,7 +5,23 @@ export class InMemoryUsersRepository implements UserRepository {
   public items: User[] = []
 
   async findById(id: string): Promise<User | null> {
-    throw new Error('Method not implemented.')
+    const user = this.items.find((item) => item.id.toString() === id)
+
+    if (!user) {
+      return null
+    }
+
+    return user
+  }
+
+  async findByCPF(cpf: string) {
+    const user = this.items.find((item) => item.cpf === cpf)
+
+    if (!user) {
+      return null
+    }
+
+    return user
   }
 
   async create(user: User): Promise<void> {
@@ -13,10 +29,14 @@ export class InMemoryUsersRepository implements UserRepository {
   }
 
   async save(user: User): Promise<void> {
-    throw new Error('Method not implemented.')
+    const itemIndex = this.items.findIndex((item) => item.id === user.id)
+
+    this.items[itemIndex] = user
   }
 
   async delete(user: User): Promise<void> {
-    throw new Error('Method not implemented.')
+    const itemIndex = this.items.findIndex((item) => item.id === user.id)
+
+    this.items.splice(itemIndex, 1)
   }
 }

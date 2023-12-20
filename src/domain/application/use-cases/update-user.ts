@@ -1,4 +1,6 @@
+import { Either, right } from '@/core/either'
 import { User } from '@/domain/enterprise/entities/User'
+import { hash } from 'bcryptjs'
 import { UserRepository } from '../repositories/user-repository'
 
 interface UpdateUserUseCaseRequest {
@@ -6,12 +8,14 @@ interface UpdateUserUseCaseRequest {
   name: string
   cpf: string
   password: string
-  type: 'user' | 'admin'
 }
 
-interface CreteUserUseCaseResponse {
-  user: User
-}
+type CreteUserUseCaseResponse = Either<
+  null,
+  {
+    user: User
+  }
+>
 
 export class UpdateUserUseCase {
   constructor(private userRepository: UserRepository) {}
@@ -21,7 +25,6 @@ export class UpdateUserUseCase {
     name,
     cpf,
     password,
-    type,
   }: UpdateUserUseCaseRequest): Promise<CreteUserUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
 
@@ -29,10 +32,16 @@ export class UpdateUserUseCase {
       throw new Error('User not found')
     }
 
+    const hashPassword = await hash(password, 6)
+
+    user.name = name
+    user.cpf = cpf
+    user.password = hashPassword
+
     await this.userRepository.save(user)
 
-    return {
+    return right({
       user,
-    }
+    })
   }
 }
