@@ -1,4 +1,5 @@
-import { Either, right } from '@/core/either'
+import { Either, left, right } from '@/core/either'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
 import { User } from '@/domain/enterprise/entities/User'
 import { hash } from 'bcryptjs'
 import { UserRepository } from '../repositories/user-repository'
@@ -11,7 +12,7 @@ interface UpdateUserUseCaseRequest {
 }
 
 type CreteUserUseCaseResponse = Either<
-  null,
+  ResourceNotFoundError,
   {
     user: User
   }
@@ -29,7 +30,7 @@ export class UpdateUserUseCase {
     const user = await this.userRepository.findById(userId)
 
     if (!user) {
-      throw new Error('User not found')
+      return left(new ResourceNotFoundError())
     }
 
     const hashPassword = await hash(password, 6)

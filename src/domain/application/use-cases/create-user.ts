@@ -30,7 +30,7 @@ export class CreateUserUseCase {
     const userAlreadyExists = await this.userRepository.findByCPF(cpf)
 
     if (userAlreadyExists) {
-      return left(new Error('User already exists'))
+      return left(new ResourceNotFoundError())
     }
 
     const passwordHashed = await hash(password, 6)

@@ -1,4 +1,5 @@
 import { Either, left, right } from '@/core/either'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
 import { User } from '@/domain/enterprise/entities/User'
 import { compare } from 'bcryptjs'
@@ -10,7 +11,7 @@ interface AuthenticateUseCaseRequest {
 }
 
 type AuthenticateUseCaseResponse = Either<
-  ResourceNotFoundError,
+  ResourceNotFoundError | NotAllowedError,
   {
     user: User
   }
@@ -32,7 +33,7 @@ export class AuthenticateUseCase {
     const verifyPassword = await compare(password, user.password)
 
     if (!verifyPassword) {
-      return left(new ResourceNotFoundError())
+      return left(new NotAllowedError())
     }
 
     return right({

@@ -1,3 +1,4 @@
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { MakeUser } from 'test/factories/make-user'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { GetProfileUserUseCase } from './get-profile'
@@ -22,5 +23,14 @@ describe('Get Profile', () => {
 
     expect(result.isRight()).toBe(true)
     expect(usersRepository.items).toHaveLength(1)
+  })
+
+  it('should not be able to get profile an inexistent user', async () => {
+    const result = await sut.execute({
+      userId: '123456',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })
