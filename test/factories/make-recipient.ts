@@ -1,6 +1,6 @@
 import {
-    Recipient,
-    RecipientProps,
+  Recipient,
+  RecipientProps,
 } from '@/domain/enterprise/entities/Recipient'
 import { faker } from '@faker-js/faker'
 import { UniqueEntityId } from 'src/core/entities/unique-entity-id'
