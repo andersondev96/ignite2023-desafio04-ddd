@@ -7,7 +7,7 @@ export async function MakeUser(
   override: Partial<UserProps> = {},
   id?: UniqueEntityId,
 ) {
-  const userType: 'user' | 'admin' = 'user'
+  const userType: 'deliveryman' | 'admin' = 'deliveryman'
 
   const hashPassword = await hash('123456', 6)
 

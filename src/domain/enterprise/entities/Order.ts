@@ -13,11 +13,11 @@ export interface OrderProps {
   deliverymanId: UniqueEntityId
   product: string
   details: string
-  status: StatusOrder
+  status?: StatusOrder | undefined
   createdAt: Date
-  withdrawnDate?: Date
-  deliveryDate?: Date
-  image?: string
+  withdrawnDate?: Date | undefined
+  deliveryDate?: Date | undefined
+  image?: string | undefined
 }
 
 export class Order extends Entity<OrderProps> {

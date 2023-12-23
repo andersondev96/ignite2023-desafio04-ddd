@@ -46,7 +46,7 @@ describe('Delete Recipient', () => {
 
   it('should not be able to delete recipient if user not is admin', async () => {
     const createUser = await MakeUser({
-      type: 'user',
+      type: 'deliveryman',
     })
 
     usersRepository.create(createUser)

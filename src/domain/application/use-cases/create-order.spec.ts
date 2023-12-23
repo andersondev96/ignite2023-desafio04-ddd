@@ -62,7 +62,7 @@ describe('Create Order', () => {
 
   it('should not be able to  create a new order if user not is admin', async () => {
     const createUser = await MakeUser({
-      type: 'user',
+      type: 'deliveryman',
     })
 
     await userRepository.create(createUser)

@@ -47,7 +47,7 @@ describe('Update Recipient', () => {
 
   it('should not be able to update recipient if user not is admin', async () => {
     const createUser = await MakeUser({
-      type: 'user',
+      type: 'deliveryman',
     })
 
     usersRepository.create(createUser)

@@ -5,7 +5,7 @@ export interface UserProps {
   name: string
   cpf: string
   password: string
-  type: 'user' | 'admin'
+  type: 'deliveryman' | 'admin'
 }
 
 export class User extends Entity<UserProps> {
