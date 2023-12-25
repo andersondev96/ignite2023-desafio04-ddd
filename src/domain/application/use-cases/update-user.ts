@@ -11,7 +11,7 @@ interface UpdateUserUseCaseRequest {
   password: string
 }
 
-type CreteUserUseCaseResponse = Either<
+type UpdateUserUseCaseResponse = Either<
   ResourceNotFoundError,
   {
     user: User
@@ -26,7 +26,7 @@ export class UpdateUserUseCase {
     name,
     cpf,
     password,
-  }: UpdateUserUseCaseRequest): Promise<CreteUserUseCaseResponse> {
+  }: UpdateUserUseCaseRequest): Promise<UpdateUserUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
 
     if (!user) {
