@@ -1,3 +1,4 @@
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
 import { MakeUser } from 'test/factories/make-user'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
@@ -43,6 +44,15 @@ describe('Reset Password', () => {
   })
 
   it('should not be able to reset password if user not is admin', async () => {
+    const userLogged = await MakeUser({
+      name: 'User Logged',
+      cpf: '111.111.111.111',
+      password: '12345678',
+      type: 'deliveryman',
+    })
+
+    usersRepository.create(userLogged)
+
     const createUser = await MakeUser({
       cpf: '123.456.789-00',
       type: 'deliveryman',
@@ -51,13 +61,13 @@ describe('Reset Password', () => {
     usersRepository.create(createUser)
 
     const result = await sut.execute({
-      userId: createUser.id.toString(),
+      userId: userLogged.id.toString(),
       cpf: '123.456.789-00',
       oldPassword: '123456',
       newPassword: '12345678',
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })

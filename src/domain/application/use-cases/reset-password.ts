@@ -30,6 +30,8 @@ export class ResetPasswordUseCase {
   }: ResetPasswordUseCaseRequest): Promise<ResetPasswordUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
 
+    console.log(user)
+
     if (!user) {
       return left(new ResourceNotFoundError())
     }
