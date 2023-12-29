@@ -2,7 +2,7 @@ import {
   Order,
   OrderProps,
   StatusOrder,
-} from '@/domain/enterprise/entities/Order'
+} from '@/domain/fastfeet/enterprise/entities/Order'
 import { faker } from '@faker-js/faker'
 import { UniqueEntityId } from 'src/core/entities/unique-entity-id'
 

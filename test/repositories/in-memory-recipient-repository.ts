@@ -1,5 +1,5 @@
-import { RecipientRepository } from '@/domain/application/repositories/recipient-repository'
 import { Recipient } from '@/domain/enterprise/entities/Recipient'
+import { RecipientRepository } from '@/domain/fastfeet/application/repositories/recipient-repository'
 
 export class InMemoryRecipientRepository implements RecipientRepository {
   public items: Recipient[] = []

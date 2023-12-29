@@ -1,35 +1,37 @@
 import { Either, left, right } from '@/core/either'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
-import { Recipient } from '@/domain/enterprise/entities/Recipient'
+import { Recipient } from '../../enterprise/entities/Recipient'
 import { RecipientRepository } from '../repositories/recipient-repository'
 import { UserRepository } from '../repositories/user-repository'
 
-interface CreateRecipientUseCaseRequest {
+interface UpdateRecipientUseCaseRequest {
   userId: string
+  recipientId: string
   name: string
   address: string
 }
 
-type CreateRecipientUseCaseResponse = Either<
+type CreteUserUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
   {
     recipient: Recipient
   }
 >
 
-export class CreateRecipientUseCase {
+export class UpdateRecipientUseCase {
   constructor(
-    private usersRepository: UserRepository,
+    private userRepository: UserRepository,
     private recipientRepository: RecipientRepository,
   ) {}
 
   async execute({
     userId,
+    recipientId,
     name,
     address,
-  }: CreateRecipientUseCaseRequest): Promise<CreateRecipientUseCaseResponse> {
-    const user = await this.usersRepository.findById(userId)
+  }: UpdateRecipientUseCaseRequest): Promise<CreteUserUseCaseResponse> {
+    const user = await this.userRepository.findById(userId)
 
     if (!user) {
       return left(new ResourceNotFoundError())
@@ -39,12 +41,16 @@ export class CreateRecipientUseCase {
       return left(new NotAllowedError())
     }
 
-    const recipient = Recipient.create({
-      name,
-      address,
-    })
+    const recipient = await this.recipientRepository.findById(recipientId)
 
-    await this.recipientRepository.create(recipient)
+    if (!recipient) {
+      return left(new ResourceNotFoundError())
+    }
+
+    recipient.name = name
+    recipient.address = address
+
+    await this.recipientRepository.save(recipient)
 
     return right({
       recipient,

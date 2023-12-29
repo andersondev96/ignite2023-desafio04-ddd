@@ -1,4 +1,4 @@
-import { User, UserProps } from '@/domain/enterprise/entities/User'
+import { User, UserProps } from '@/domain/fastfeet/enterprise/entities/User'
 import { faker } from '@faker-js/faker'
 import { hash } from 'bcryptjs'
 import { UniqueEntityId } from 'src/core/entities/unique-entity-id'

@@ -1,14 +1,14 @@
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
-import { User } from '@/domain/enterprise/entities/User'
 import { hash } from 'bcryptjs'
+import { User } from '../../enterprise/entities/User'
 import { UserRepository } from '../repositories/user-repository'
 
 interface CreateUserUseCaseRequest {
   name: string
   cpf: string
   password: string
-  type: 'user' | 'admin'
+  type: 'admin' | 'deliveryman'
 }
 
 type CreteUserUseCaseResponse = Either<

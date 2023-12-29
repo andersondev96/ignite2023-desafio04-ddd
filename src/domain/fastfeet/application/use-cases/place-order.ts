@@ -1,23 +1,25 @@
 import { Either, left, right } from '@/core/either'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
-import { Order } from '@/domain/enterprise/entities/Order'
+import { Order, StatusOrder } from '../../enterprise/entities/Order'
 import { OrderRepository } from '../repositories/order-repository'
 import { UserRepository } from '../repositories/user-repository'
 
-interface GetOrderUseCaseRequest {
+interface PlaceOrderUseCaseRequest {
   userId: string
   orderId: string
+  status: StatusOrder
+  image?: string
 }
 
-type GetOrderUseCaseResponse = Either<
-  ResourceNotFoundError | NotAllowedError,
+type PlaceOrderUseCaseResponse = Either<
+  NotAllowedError | ResourceNotFoundError,
   {
     order: Order
   }
 >
 
-export class GetOrderUseCase {
+export class PlaceOrderUseCase {
   constructor(
     private userRepository: UserRepository,
     private orderRepository: OrderRepository,
@@ -26,7 +28,9 @@ export class GetOrderUseCase {
   async execute({
     userId,
     orderId,
-  }: GetOrderUseCaseRequest): Promise<GetOrderUseCaseResponse> {
+    status,
+    image,
+  }: PlaceOrderUseCaseRequest): Promise<PlaceOrderUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
 
     if (!user) {
@@ -42,6 +46,22 @@ export class GetOrderUseCase {
     if (!order) {
       return left(new ResourceNotFoundError())
     }
+
+    if (
+      (status === StatusOrder.DELIVERED &&
+        user.id.toString() !== order.deliverymanId.toString()) ||
+      (status === StatusOrder.DELIVERED && !image)
+    ) {
+      return left(new NotAllowedError())
+    }
+
+    order.status = status.toString()
+
+    if (image) {
+      order.image = image
+    }
+
+    await this.orderRepository.save(order)
 
     return right({
       order,

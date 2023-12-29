@@ -1,6 +1,6 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { OrderRepository } from '@/domain/application/repositories/order-repository'
 import { Order } from '@/domain/enterprise/entities/Order'
+import { OrderRepository } from '@/domain/fastfeet/application/repositories/order-repository'
 
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []

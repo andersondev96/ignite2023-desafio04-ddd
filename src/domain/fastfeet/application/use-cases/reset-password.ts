@@ -1,8 +1,8 @@
 import { Either, left, right } from '@/core/either'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
-import { User } from '@/domain/enterprise/entities/User'
 import { compare, hash } from 'bcryptjs'
+import { User } from '../../enterprise/entities/User'
 import { UserRepository } from '../repositories/user-repository'
 
 interface ResetPasswordUseCaseRequest {
@@ -29,8 +29,6 @@ export class ResetPasswordUseCase {
     newPassword,
   }: ResetPasswordUseCaseRequest): Promise<ResetPasswordUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
-
-    console.log(user)
 
     if (!user) {
       return left(new ResourceNotFoundError())

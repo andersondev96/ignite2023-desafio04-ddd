@@ -1,32 +1,32 @@
 import { Either, left, right } from '@/core/either'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
-import { Recipient } from '@/domain/enterprise/entities/Recipient'
-import { RecipientRepository } from '../repositories/recipient-repository'
+import { Order } from '../../enterprise/entities/Order'
+import { OrderRepository } from '../repositories/order-repository'
 import { UserRepository } from '../repositories/user-repository'
 
-interface GetRecipientUseCaseRequest {
+interface GetOrderUseCaseRequest {
   userId: string
-  recipientId: string
+  orderId: string
 }
 
-type CreteUserUseCaseResponse = Either<
+type GetOrderUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
   {
-    recipient: Recipient
+    order: Order
   }
 >
 
-export class GetRecipientUseCase {
+export class GetOrderUseCase {
   constructor(
     private userRepository: UserRepository,
-    private recipientRepository: RecipientRepository,
+    private orderRepository: OrderRepository,
   ) {}
 
   async execute({
     userId,
-    recipientId,
-  }: GetRecipientUseCaseRequest): Promise<CreteUserUseCaseResponse> {
+    orderId,
+  }: GetOrderUseCaseRequest): Promise<GetOrderUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
 
     if (!user) {
@@ -37,14 +37,14 @@ export class GetRecipientUseCase {
       return left(new NotAllowedError())
     }
 
-    const recipient = await this.recipientRepository.findById(recipientId)
+    const order = await this.orderRepository.findById(orderId)
 
-    if (!recipient) {
+    if (!order) {
       return left(new ResourceNotFoundError())
     }
 
     return right({
-      recipient,
+      order,
     })
   }
 }

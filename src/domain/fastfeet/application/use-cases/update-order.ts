@@ -1,7 +1,7 @@
 import { Either, left, right } from '@/core/either'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
-import { Order, StatusOrder } from '@/domain/enterprise/entities/Order'
+import { Order, StatusOrder } from '../../enterprise/entities/Order'
 import { OrderRepository } from '../repositories/order-repository'
 import { RecipientRepository } from '../repositories/recipient-repository'
 import { UserRepository } from '../repositories/user-repository'

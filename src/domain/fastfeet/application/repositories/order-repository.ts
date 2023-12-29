@@ -1,5 +1,5 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { Order } from '@/domain/enterprise/entities/Order'
+import { Order } from '../../enterprise/entities/Order'
 
 export interface OrderRepository {
   findById(id: string): Promise<Order | null>
