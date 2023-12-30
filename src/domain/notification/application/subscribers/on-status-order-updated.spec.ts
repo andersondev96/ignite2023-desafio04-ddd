@@ -5,8 +5,6 @@ import { MakeRecipient } from 'test/factories/make-recipient'
 import { MakeUser } from 'test/factories/make-user'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order-repository'
-import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient-repository'
-import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { waitFor } from 'test/utils/waitFor'
 import { SpyInstance } from 'vitest'
 import {
@@ -16,8 +14,6 @@ import {
 } from '../use-cases/send-notification'
 import { OnStatusOrderUpdated } from './on-status-order-updated'
 
-let userRepository: InMemoryUsersRepository
-let recipientRepository: InMemoryRecipientRepository
 let orderRepository: InMemoryOrderRepository
 let notificationRepository: InMemoryNotificationsRepository
 let sendNotificationUseCase: SendNotificationUseCase
@@ -29,8 +25,6 @@ let sendNotificationExecuteSpyOn: SpyInstance<
 
 describe('On Status Order Updated', () => {
   beforeEach(() => {
-    userRepository = new InMemoryUsersRepository()
-    recipientRepository = new InMemoryRecipientRepository()
     orderRepository = new InMemoryOrderRepository()
     notificationRepository = new InMemoryNotificationsRepository()
     sendNotificationUseCase = new SendNotificationUseCase(
@@ -59,8 +53,6 @@ describe('On Status Order Updated', () => {
     createOrder.status = StatusOrder.DELIVERED.toString()
 
     await orderRepository.save(createOrder)
-
-    console.log(sendNotificationExecuteSpyOn)
 
     await waitFor(() => {
       expect(sendNotificationExecuteSpyOn).toHaveBeenCalled()
