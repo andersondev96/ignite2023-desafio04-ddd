@@ -1,6 +1,7 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { Order } from '@/domain/enterprise/entities/Order'
 import { OrderRepository } from '@/domain/fastfeet/application/repositories/order-repository'
+import { Order } from '@/domain/fastfeet/enterprise/entities/Order'
 
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []
@@ -34,6 +35,8 @@ export class InMemoryOrderRepository implements OrderRepository {
     const itemIndex = this.items.findIndex((item) => item.id === order.id)
 
     this.items[itemIndex] = order
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
   async delete(order: Order) {

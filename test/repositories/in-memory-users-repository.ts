@@ -1,5 +1,5 @@
-import { User } from '@/domain/enterprise/entities/User'
 import { UserRepository } from '@/domain/fastfeet/application/repositories/user-repository'
+import { User } from '@/domain/fastfeet/enterprise/entities/User'
 
 export class InMemoryUsersRepository implements UserRepository {
   public items: User[] = []
